@@ -30,7 +30,8 @@ struct APIClient {
 
 enum Endpoints {
     static let baseURL = "http://api.aviationstack.com/v1/flights?"
-    static let accessKey = "access_key=b5ba3d424ac4ba94475eca6396c9ef76"
+    static let accessKey = KEY // TODO: store this in a proper way
+
     
     case flightNumber(flight: String)
 
