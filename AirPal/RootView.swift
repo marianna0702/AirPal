@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  RootView.swift
 //  AirPal
 //
 //  Created by Marianna Mikhael on 4/9/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct RootView: View {
     @State var flightInput = ""
     @ObservedObject private var viewModel = FlightDataViewModel()
 
@@ -41,5 +41,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    RootView()
 }

@@ -8,7 +8,11 @@
 import Foundation
 
 struct APIClient {
-    func requestData<T: Codable>(for url: URL) async throws -> T {
+    func requestData<T: Codable>(for endpoint: Endpoint) async throws -> T {
+        guard let url = endpoint.url else {
+            throw NetworkError.invalidURL
+        }
+
         let (data, response) = try await URLSession.shared.data(from: url)
 
         guard 

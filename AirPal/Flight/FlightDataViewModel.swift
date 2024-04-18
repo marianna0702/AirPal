@@ -10,14 +10,10 @@ import Foundation
 @MainActor
 class FlightDataViewModel: ObservableObject {
     @Published var flightData: FlightData?
-
     
     func getFlightData(flightNumber: String) async throws {
-        guard let url = try Endpoint.flightNumber(flight: flightNumber).url else {
-            throw NetworkError.invalidURL
-        }
-
-        if let response: Flight = try await APIClient().requestData(for: url) {
+        let endpoint = try Endpoint.flightNumber(flight: flightNumber)
+        if let response: Flight = try await APIClient().requestData(for: endpoint) {
             flightData = response.data.first ?? nil
         }
     }
