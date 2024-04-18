@@ -14,21 +14,20 @@
 		79E227DF2BC5D773008054B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E227DE2BC5D773008054B5 /* ContentView.swift */; };
 		79E227E12BC5D774008054B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E227E02BC5D774008054B5 /* Assets.xcassets */; };
 		79E227E42BC5D774008054B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E227E32BC5D774008054B5 /* Preview Assets.xcassets */; };
-		79E227EE2BCEE787008054B5 /* Extensions+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E227ED2BCEE787008054B5 /* Extensions+Keys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		798587942BC853FE00061FF4 /* Flight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flight.swift; sourceTree = "<group>"; };
 		798587962BC8571E00061FF4 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		798587982BC85DA900061FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		798587982BC85DA900061FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		798587992BC86B0700061FF4 /* FlightDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightDataViewModel.swift; sourceTree = "<group>"; };
+		7985879B2BD1970300061FF4 /* CustomConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CustomConfig.xcconfig; sourceTree = "<group>"; };
 		79E227D92BC5D773008054B5 /* AirPal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirPal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79E227DC2BC5D773008054B5 /* AirPalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirPalApp.swift; sourceTree = "<group>"; };
 		79E227DE2BC5D773008054B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		79E227E02BC5D774008054B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E227E32BC5D774008054B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		79E227E52BC5D774008054B5 /* AirBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirBuddy.entitlements; sourceTree = "<group>"; };
-		79E227ED2BCEE787008054B5 /* Extensions+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Keys.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,9 +45,17 @@
 			isa = PBXGroup;
 			children = (
 				798587962BC8571E00061FF4 /* APIClient.swift */,
-				79E227ED2BCEE787008054B5 /* Extensions+Keys.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		7985879C2BD1997800061FF4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				798587982BC85DA900061FF4 /* Info.plist */,
+				7985879B2BD1970300061FF4 /* CustomConfig.xcconfig */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		79E227D02BC5D773008054B5 = {
@@ -70,10 +77,10 @@
 		79E227DB2BC5D773008054B5 /* AirPal */ = {
 			isa = PBXGroup;
 			children = (
-				798587982BC85DA900061FF4 /* Info.plist */,
 				79E227DC2BC5D773008054B5 /* AirPalApp.swift */,
 				79E227DE2BC5D773008054B5 /* ContentView.swift */,
 				798587942BC853FE00061FF4 /* Flight.swift */,
+				7985879C2BD1997800061FF4 /* Resources */,
 				798587992BC86B0700061FF4 /* FlightDataViewModel.swift */,
 				798587932BC8505E00061FF4 /* Networking */,
 				79E227E02BC5D774008054B5 /* Assets.xcassets */,
@@ -164,7 +171,6 @@
 				798587952BC853FE00061FF4 /* Flight.swift in Sources */,
 				79E227DF2BC5D773008054B5 /* ContentView.swift in Sources */,
 				79E227DD2BC5D773008054B5 /* AirPalApp.swift in Sources */,
-				79E227EE2BCEE787008054B5 /* Extensions+Keys.swift in Sources */,
 				7985879A2BC86B0700061FF4 /* FlightDataViewModel.swift in Sources */,
 				798587972BC8571E00061FF4 /* APIClient.swift in Sources */,
 			);
@@ -175,6 +181,7 @@
 /* Begin XCBuildConfiguration section */
 		79E227E62BC5D774008054B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7985879B2BD1970300061FF4 /* CustomConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

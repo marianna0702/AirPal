@@ -32,12 +32,16 @@ struct Endpoint {
     let path: String
     let queryItems: [URLQueryItem]
 
-    static func flightNumber(flight: String) -> Endpoint {
+    static func flightNumber(flight: String) throws -> Endpoint {
+        guard let accessKey = Bundle.main.object(forInfoDictionaryKey: "AVIATIONSTACK_API_KEY") as? String else {
+            throw NetworkError.invalidAccessKey
+        }
+
         return Endpoint(
             path: "/v1/flights",
             queryItems: [
                 URLQueryItem(name: "flight_iata", value: flight),
-                URLQueryItem(name: "access_key", value: Endpoint.accessKey)
+                URLQueryItem(name: "access_key", value: accessKey)
             ]
         )
     }
@@ -56,6 +60,7 @@ enum NetworkError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
+    case invalidAccessKey
 }
 
 
