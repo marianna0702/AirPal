@@ -25,9 +25,10 @@ struct FlightArrivalDeparture: Codable {
     let iata: String
     let terminal: String?
     let gate: String?
+    let delay: Int?
     let scheduled: String
     let estimated: String
-    let actual: String
+    let actual: String?
 }
 
 struct FlightDetails: Codable {

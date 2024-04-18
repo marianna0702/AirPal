@@ -8,7 +8,11 @@
 import Foundation
 
 struct APIClient {
-    func requestData<T: Codable>(for url: URL) async throws -> T {
+    func requestData<T: Codable>(for endpoint: Endpoint) async throws -> T {
+        guard let url = endpoint.url else {
+            throw NetworkError.invalidURL
+        }
+
         let (data, response) = try await URLSession.shared.data(from: url)
 
         guard 
@@ -28,30 +32,39 @@ struct APIClient {
     }
 }
 
-enum Endpoints {
-    static let baseURL = "http://api.aviationstack.com/v1/flights?"
-    
-    case flightNumber(flight: String)
+struct Endpoint {
+    let path: String
+    let queryItems: [URLQueryItem]
 
-    var urlString: String {
-        switch self {
-        case .flightNumber(let flight):
-            let str  = "\(Endpoints.baseURL)flight_iata=\(flight)&\(Endpoints.accessKey)"
-            return str
+    static func flightNumber(flight: String) throws -> Endpoint {
+        guard let accessKey = Bundle.main.object(forInfoDictionaryKey: "AVIATIONSTACK_API_KEY") as? String else {
+            throw NetworkError.invalidAccessKey
         }
+
+        return Endpoint(
+            path: "/v1/flights",
+            queryItems: [
+                URLQueryItem(name: "flight_iata", value: flight),
+                URLQueryItem(name: "access_key", value: accessKey)
+            ]
+        )
     }
 
     var url: URL? {
-        switch self {
-        case .flightNumber(_):
-            return URL(string: urlString)
-        }
+        var components = URLComponents()
+        components.scheme = "http"
+        components.host = "api.aviationstack.com"
+        components.path = path
+        components.queryItems = queryItems
+        return components.url
     }
-
 }
 
 enum NetworkError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
+    case invalidAccessKey
 }
+
+
