@@ -28,26 +28,28 @@ struct APIClient {
     }
 }
 
-enum Endpoints {
-    static let baseURL = "http://api.aviationstack.com/v1/flights?"
-    
-    case flightNumber(flight: String)
+struct Endpoint {
+    let path: String
+    let queryItems: [URLQueryItem]
 
-    var urlString: String {
-        switch self {
-        case .flightNumber(let flight):
-            let str  = "\(Endpoints.baseURL)flight_iata=\(flight)&\(Endpoints.accessKey)"
-            return str
-        }
+    static func flightNumber(flight: String) -> Endpoint {
+        return Endpoint(
+            path: "/v1/flights",
+            queryItems: [
+                URLQueryItem(name: "flight_iata", value: flight),
+                URLQueryItem(name: "access_key", value: Endpoint.accessKey)
+            ]
+        )
     }
 
     var url: URL? {
-        switch self {
-        case .flightNumber(_):
-            return URL(string: urlString)
-        }
+        var components = URLComponents()
+        components.scheme = "http"
+        components.host = "api.aviationstack.com"
+        components.path = path
+        components.queryItems = queryItems
+        return components.url
     }
-
 }
 
 enum NetworkError: Error {
@@ -55,3 +57,5 @@ enum NetworkError: Error {
     case invalidResponse
     case invalidData
 }
+
+

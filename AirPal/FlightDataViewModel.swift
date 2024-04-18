@@ -13,7 +13,7 @@ class FlightDataViewModel: ObservableObject {
 
     
     func getFlightData(flightNumber: String) async throws {
-        guard let url = Endpoints.flightNumber(flight: flightNumber).url else {
+        guard let url = Endpoint.flightNumber(flight: flightNumber).url else {
             throw NetworkError.invalidURL
         }
 
