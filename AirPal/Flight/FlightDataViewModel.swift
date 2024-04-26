@@ -20,8 +20,7 @@ class FlightDataViewModel: ObservableObject {
         }
     }
 
-    /// Returns true if the flight data has changed
-    func refreshFlightData() async throws -> Bool {
+    func refreshFlightData() async throws {
         // clear previous changes messages
         Task { @MainActor in
             messages = []
@@ -34,11 +33,8 @@ class FlightDataViewModel: ObservableObject {
 
         if let newFlight = flightData {
             checkForFlightUpdates(for: newFlight)
-            let hasChanged = newFlight != flightData
             flightData = newFlight
-            return hasChanged
         }
-        return false
     }
 
     func checkForFlightUpdates(for updatedFlight: FlightData) {

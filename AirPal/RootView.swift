@@ -10,7 +10,6 @@ import SwiftUI
 struct RootView: View {
     @State var flightInput = ""
     @ObservedObject private var viewModel = FlightDataViewModel()
-    @State var flightChanged = false
 
     var body: some View {
         VStack {
@@ -28,16 +27,15 @@ struct RootView: View {
             }
             Text("Flight Status: \(viewModel.flightData?.flightStatus ?? "N/A")")
             Button("Refresh") {
-                // TODO: Refactor flightChanged
                 Task {
                     do {
-                        flightChanged = try await viewModel.refreshFlightData()
+                        try await viewModel.refreshFlightData()
                     } catch {
                         print("Error refreshing", error)
                     }
                 }
             }
-            if flightChanged {
+            if !viewModel.messages.isEmpty {
                 VStack(alignment: .center) {
                     ForEach(viewModel.messages, id: \.self) {
                         Text($0)
