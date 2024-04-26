@@ -28,6 +28,7 @@ struct RootView: View {
             }
             Text("Flight Status: \(viewModel.flightData?.flightStatus ?? "N/A")")
             Button("Refresh") {
+                // TODO: Refactor flightChanged
                 Task {
                     do {
                         flightChanged = try await viewModel.refreshFlightData()
@@ -50,7 +51,7 @@ struct RootView: View {
         .onSubmit(of: .text) {
             Task {
                 do {
-                    viewModel.flightData =  try await viewModel.getFlightData(flightNumber: flightInput.uppercased())
+                    try await viewModel.getFlightData(flightNumber: flightInput.uppercased())
                 } catch {
                     print("Error getting flight data", error)
                 }

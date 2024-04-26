@@ -7,28 +7,32 @@
 
 import Foundation
 
-@MainActor
 class FlightDataViewModel: ObservableObject {
     @Published var flightData: FlightData?
     @Published var messages: [String] = []
 
-    func getFlightData(flightNumber: String) async throws -> FlightData? {
+    func getFlightData(flightNumber: String) async throws {
         let endpoint = try Endpoint.flightNumber(flight: flightNumber)
         if let response: Flight = try await APIClient().requestData(for: endpoint) {
-            return response.data.first ?? nil
+            Task { @MainActor in
+                flightData = response.data.first ?? nil
+            }
         }
-        return nil
     }
 
     /// Returns true if the flight data has changed
     func refreshFlightData() async throws -> Bool {
         // clear previous changes messages
-        messages = []
+        Task { @MainActor in
+            messages = []
+        }
         guard let flightNumber = flightData?.flight.iata else {
             throw NetworkError.invalidFlightNumber
         }
 
-        if let newFlight = try await getFlightData(flightNumber: flightNumber) {
+        try await getFlightData(flightNumber: flightNumber)
+
+        if let newFlight = flightData {
             checkForFlightUpdates(for: newFlight)
             let hasChanged = newFlight != flightData
             flightData = newFlight
