@@ -65,6 +65,7 @@ enum NetworkError: Error {
     case invalidResponse
     case invalidData
     case invalidAccessKey
+    case invalidFlightNumber
 }
 
 

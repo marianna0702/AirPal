@@ -26,6 +26,24 @@ struct RootView: View {
                 Text(viewModel.flightData?.arrival.iata ?? "Ari")
             }
             Text("Flight Status: \(viewModel.flightData?.flightStatus ?? "N/A")")
+            Button("Refresh") {
+                Task {
+                    do {
+                        try await viewModel.refreshFlightData()
+                    } catch {
+                        print("Error refreshing", error)
+                    }
+                }
+            }
+            if !viewModel.messages.isEmpty {
+                VStack(alignment: .center) {
+                    ForEach(viewModel.messages, id: \.self) {
+                        Text($0)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .padding(.horizontal)
+            }
         }
         .padding()
         .onSubmit(of: .text) {
