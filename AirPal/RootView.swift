@@ -30,7 +30,9 @@ struct RootView: View {
             Button("Refresh") {
                 Task {
                     do {
-                        flightChanged = try await viewModel.refreshFlightData()
+//                        flightChanged = try await viewModel.refreshFlightData()
+                        let endpoint = try Endpoint.sendSMS(phoneNumber: "18438551417", message: "live-from-AirPal")
+                        let _ : SMSResponse  = try await APIClient().sendSMS(for: endpoint)
                     } catch {
                         print("Error refreshing", error)
                     }

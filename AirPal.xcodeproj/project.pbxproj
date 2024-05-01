@@ -14,6 +14,8 @@
 		79E227DF2BC5D773008054B5 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E227DE2BC5D773008054B5 /* RootView.swift */; };
 		79E227E12BC5D774008054B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E227E02BC5D774008054B5 /* Assets.xcassets */; };
 		79E227E42BC5D774008054B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E227E32BC5D774008054B5 /* Preview Assets.xcassets */; };
+		79F8499F2BE2CA6A001BE1D8 /* SMSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8499E2BE2CA6A001BE1D8 /* SMSService.swift */; };
+		79F849A12BE2D585001BE1D8 /* SMSResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F849A02BE2D585001BE1D8 /* SMSResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		79E227E02BC5D774008054B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79E227E32BC5D774008054B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		79E227E52BC5D774008054B5 /* AirBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirBuddy.entitlements; sourceTree = "<group>"; };
+		79F8499E2BE2CA6A001BE1D8 /* SMSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSService.swift; sourceTree = "<group>"; };
+		79F849A02BE2D585001BE1D8 /* SMSResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				798587962BC8571E00061FF4 /* APIClient.swift */,
+				79F8499E2BE2CA6A001BE1D8 /* SMSService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 				798587982BC85DA900061FF4 /* Info.plist */,
 				79E227DC2BC5D773008054B5 /* AirPalApp.swift */,
 				79E227DE2BC5D773008054B5 /* RootView.swift */,
+				79F849A02BE2D585001BE1D8 /* SMSResponse.swift */,
 				7985879D2BD19D3F00061FF4 /* Flight */,
 				7985879C2BD1997800061FF4 /* Resources */,
 				798587932BC8505E00061FF4 /* Networking */,
@@ -180,7 +186,9 @@
 				79E227DF2BC5D773008054B5 /* RootView.swift in Sources */,
 				79E227DD2BC5D773008054B5 /* AirPalApp.swift in Sources */,
 				7985879A2BC86B0700061FF4 /* FlightDataViewModel.swift in Sources */,
+				79F849A12BE2D585001BE1D8 /* SMSResponse.swift in Sources */,
 				798587972BC8571E00061FF4 /* APIClient.swift in Sources */,
+				79F8499F2BE2CA6A001BE1D8 /* SMSService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
