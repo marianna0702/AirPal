@@ -12,6 +12,10 @@ class FlightDataViewModel: ObservableObject {
     @Published var flightData: FlightData?
     @Published var messages: [String] = []
 
+    var flightCode: String {
+        return flightData?.flight.iata ?? ""
+    }
+
     func getFlightData(flightNumber: String) async throws -> FlightData? {
         let endpoint = try Endpoint.flightNumber(flight: flightNumber)
         if let response: Flight = try await APIClient().requestData(for: endpoint) {

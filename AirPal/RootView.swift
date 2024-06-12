@@ -19,7 +19,7 @@ struct RootView: View {
                 .foregroundStyle(.secondary)
             TextField("Flight number", text: $flightInput)
                 .textFieldStyle(.roundedBorder)
-            Text("Flight: \(viewModel.flightData?.flight.iata ?? "N/A")")
+            Text("Flight: \(viewModel.flightCode)")
                 .font(.title2)
             HStack {
                 Text(viewModel.flightData?.departure.iata ?? "Dep")
@@ -30,9 +30,11 @@ struct RootView: View {
             Button("Refresh") {
                 Task {
                     do {
-//                        flightChanged = try await viewModel.refreshFlightData()
-                        let endpoint = try Endpoint.sendSMS(phoneNumber: "18438551417", message: "live-from-AirPal")
-                        let _ : SMSResponse  = try await APIClient().sendSMS(for: endpoint)
+                        flightChanged = try await viewModel.refreshFlightData()
+                        // add tag at beginning of text
+                        var text = 
+                        viewModel.messages.insert("AirPal: Flight \(viewModel.flightCode)", at: 0)
+                        try await APIClient().sendSMS(to: "18438551417", message: viewModel.messages.joined(separator: "\n"))
                     } catch {
                         print("Error refreshing", error)
                     }

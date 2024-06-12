@@ -9,4 +9,6 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 AVIATIONSTACK_API_KEY = KEY
+TELESIGN_CUSTOMER_ID = KEY
+TELESIGN_API_KEY = KEY
 

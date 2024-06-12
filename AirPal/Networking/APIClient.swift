@@ -30,15 +30,36 @@ struct APIClient {
             throw NetworkError.invalidData
         }
     }
-
-    func sendSMS<T: Codable>(for endpoint: Endpoint) async throws -> T {
-        let url = URL(string: "https://rest-ww.telesign.com/v1/messaging")!
+    
+    /// phoneNumber - include country code, no special characters and spaces
+    /// message - Limit to 1600 characters
+    func sendSMS(to phoneNumber: String, message: String) async throws {
+        guard let url = Endpoint.getSMSEndpoint().teleSignURL else {
+            throw NetworkError.invalidURL
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+//        request.allHTTPHeaderFields = [
+//          "Accept": "application/json",
+//          "Content-Type": c, // TODO: figure out authorization
+//          "Authorization": "Basic RTk3RTY4NzktOTVBNy00OTQ1LThCRDgtMEY1NzFFQTMzNTJBOlRiS0ROVVBpeUcvcjFkQ2FFVENxNDZjNVMxS3I4OEVLVDBzaHJIUmNCWjNxb01sUFJaMG9VaDM3VTVqQkhnNmZ0cUprc3J6cXRPZkh1dXhZOUxXbENnPT0="
+//        ]
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("Basic [*SOME AUTH CODE*]", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        let postString = "phone_number=[*PHONE NUMBER*]&message=live-from-airpal&message_type=ARN"
+
+        guard let customerID = Bundle.main.object(forInfoDictionaryKey: "TELESIGN_CUSTOMER_ID") as? String,
+              let apiKey = Bundle.main.object(forInfoDictionaryKey: "TELESIGN_API_KEY") as? String
+        else {
+            throw NetworkError.invalidTelesignAuth
+        }
+
+        let authData = "\(customerID):\(apiKey)".data(using: .utf8)
+        guard let encoded = authData?.base64EncodedData(),
+              let decoded = String(data: encoded, encoding: .utf8) else {
+            throw NetworkError.invalidTelesignAuth
+        }
+        request.setValue("Basic \(decoded)", forHTTPHeaderField: "Authorization")
+        let postString = "phone_number=\(phoneNumber)&message=\(message)&message_type=ARN"
         request.httpBody = postString.data(using: .utf8)
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -47,22 +68,14 @@ struct APIClient {
             let response = response as? HTTPURLResponse,
                 response.statusCode == 200
         else {
-            throw NetworkError.invalidResponse
-        }
-
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return try decoder.decode(T.self, from: data)
-        } catch {
-            throw NetworkError.invalidData
+            throw NetworkError.textFailed
         }
     }
 }
 
 struct Endpoint {
     let path: String
-    let queryItems: [URLQueryItem]
+    let queryItems: [URLQueryItem]?
 
     static func flightNumber(flight: String) throws -> Endpoint {
         guard let accessKey = Bundle.main.object(forInfoDictionaryKey: "AVIATIONSTACK_API_KEY") as? String else {
@@ -78,16 +91,10 @@ struct Endpoint {
         )
     }
 
-    static func sendSMS(phoneNumber: String, message: String) throws -> Endpoint {
-        // TODO: validate auth
-
+    static func getSMSEndpoint() -> Endpoint {
         return Endpoint(
             path: "/v1/messaging",
-            queryItems: [
-                URLQueryItem(name: "phone_number", value: phoneNumber),
-                URLQueryItem(name: "message", value: Data(message.utf8).base64EncodedString()),
-                URLQueryItem(name: "message_type", value: "ARN")
-            ]
+            queryItems: nil
         )
     }
 
@@ -105,7 +112,6 @@ struct Endpoint {
         components.scheme = "https"
         components.host = "rest-ww.telesign.com"
         components.path = path
-        components.queryItems = queryItems
         return components.url
     }
 }
@@ -116,6 +122,8 @@ enum NetworkError: Error {
     case invalidData
     case invalidAccessKey
     case invalidFlightNumber
+    case invalidTelesignAuth
+    case textFailed
 }
 
 
